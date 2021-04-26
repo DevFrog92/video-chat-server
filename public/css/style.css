@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.room-wrapper {
+  width: 100vw;
+  height: 100vh;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.main__left {
+  width: 80%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: antiquewhite;
+}
+
+.main__videos {
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  background-color: azure;
+  border: 1px solid tomato;
+}
+
+.main__right {
+  width: 20%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #3d3d42;
+  background-color: aqua;
+
+}
+
+
+
+.main__controls {
+  display: flex;
+  padding: 5px;
+  height: 4rem;
+  border: 1px solid tomato;
+  justify-content: space-between;
+}
+
+.main__controls_block {
+  display: flex;
+}
+.main__controls_button {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+  margin: 5px;
+}
+.main__controls_button span {
+  margin-top: 10px;
+  display: block;
+}
+.main__controls_button:hover {
+  background-color: #34383b;
+}
+.main__controls_button i {
+  font-size: 25px;
+}
+.main__header {
+  text-align: center;
+  padding: 20px;
+  border-bottom: 2px solid #3d3d42;
+}
+.main__chat__window {
+  flex-grow: 1;
+  overflow: auto;
+  padding: 20px 20px 0 20px;
+  border: 1px solid maroon;
+}
+.main__message_container {
+  height: 4rem;
+  padding: 22px 11px;
+  display: flex;
+}
+.main__message_container input {
+  flex-grow: 1;
+  background-color: transparent;
+  border: none;
+  user-select: none;
+  outline: none;
+}
+
+#all_messages li {
+  list-style: none;
+  border-bottom: 1px solid #3d3d42;
+  padding: 10px 0;
+}
+.unmute {
+  color: red;
+}
+
+#video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+video {
+  width: 100%;
+  border: 3px #fff solid;
+  border-radius: 10px;
+  position: relative;
+}
+
+canvas {
+  position: absolute;
+}

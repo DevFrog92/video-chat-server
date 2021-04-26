@@ -1,0 +1,70 @@
+{% set title = "화상 채팅" %}
+{% extends "layout/base.html" %}
+
+{% block style -%}
+<link rel="stylesheet" href="/css/RolePlaying.css">
+{% endblock %}
+{% block content -%}
+<div class="video-wrapper">
+  <div class="video-wrapper-left">
+    <div id="videos">
+      <div id="publisher"></div>
+      <div id="subscriber"></div>
+    </div>
+
+    <div id="controls">
+      <select name="" id="effects">
+        <option value="alien">Alien</option>
+        <option value="aviators">Aviators</option>
+        <option value="background_segmentation">Backgroun-segmentaion</option>
+        <option value="ball_face">Ball Face</option>
+        <option value="beard">Beard</option>
+        <option value="beauty">Beauty</option>
+        <option value="dalmatian">Dalmatian</option>
+        <option value="fairy_lights">fairy_lights</option>
+        <option value="flowers">Flowers</option>
+        <option value="flower_crown">flower_crown</option>
+        <option value="frankenstein">frankenstein</option>
+        <option value="hair_segmentation">hair_segmentation</option>
+        <option value="manly_face">manly_face</option>
+        <option value="plastic_ocean">plastic_ocean</option>
+        <option value="pumpkin">pumpkin</option>
+        <option value="scuba">scuba</option>
+        <option value="tape_face">tape_face</option>
+        <option value="teddycigar">teddycigar</option>
+        <option value="tiny_sunglasses">tiny_sunglasses</option>
+        <option value="lion">Lion</option>
+        <option value="koala">Koala</option>
+        <option value="topology">topology</option>
+
+      </select>
+    </div>  
+  </div>
+  <div class="video-wrapper-right">
+    <div class="main__header">
+      <h6><span class="live"></span>Live Chat</h6>
+    </div>
+    <div class="main__chat__window" id="main__chat__window">
+      <ul class="messages" id="all_messages"></ul>
+    </div>
+    <div class="main__message_container">
+      <input
+        type="text"
+        id="chat_message"
+        placeholder="Type message & press enter to send"
+      />
+      <button class="sendMsg" id="sendMsg">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block script%}
+<!-- <script defer src="/js/face-api.min.js"></script> -->
+<!-- <script src="/js/script.js" defer></script> -->
+<script src="/js/face-ar.js" defer></script>
+
+{% endblock %}

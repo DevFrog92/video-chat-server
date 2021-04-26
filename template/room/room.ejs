@@ -1,0 +1,90 @@
+{% set title = "화상 채팅" %}
+{% extends "layout/base.html" %}
+
+{% block style -%}
+<link rel="stylesheet" href="/css/style.css">
+{% endblock %}
+{% block content -%}
+<div class="room-wrapper">
+  <!-- <div class="overlay" onclick="hideInvitePopup()"></div> -->
+  <!-- <div class="invitePop">
+    <input type="text" value="..." id="roomLink" readonly />
+    <button onclick="copyToClipboard()">Copy</button>
+  </div> -->
+  <div class="main">
+    <div class="main__left">
+      <div class="main__videos">
+        <div id="video-grid">
+        </div>
+      </div>
+      <div class="main__controls">
+        <div class="main__controls_block">
+          <div class="main__controls_button" id="muteButton">
+            <i class="fa fa-microphone"></i>
+            <span>Mute</span>
+          </div>
+          <div class="main__controls_button" id="playPauseVideo">
+            <i class="fas fa-video"></i>
+            <span>Pause Video</span>
+          </div>
+        </div>
+
+        <div class="main__controls_block">
+          <div class="main__controls_button">
+            <i class="fa fa-lock"></i>
+            <span>Security</span>
+          </div>
+          <div class="main__controls_button">
+            <i class="fa fa-users"></i>
+            <span>Participants</span>
+          </div>
+          <div
+            class="main__controls_button"
+            id="chat__Btn"
+            onclick="ShowChat(this)"
+          >
+            <i class="fa fa-comment"></i>
+            <span>Chat</span>
+          </div>
+          <div class="main__controls_button" onclick="showInvitePopup()">
+            <i class="fas fa-user-plus"></i>
+            <span>Invite people</span>
+          </div>
+        </div>
+
+        <div class="main__controls_block">
+          <div class="main__controls_button leaveMeeting" id="leave-meeting"  @click="exitRoom()">
+            <i class="fa fa-times"></i>
+            <span class="">Leave Meeting</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main__right">
+      <div class="main__header">
+        <h6><span class="live"></span>Live Chat</h6>
+      </div>
+      <div class="main__chat__window" id="main__chat__window">
+        <ul class="messages" id="all_messages"></ul>
+      </div>
+      <div class="main__message_container">
+        <input
+          type="text"
+          id="chat_message"
+          placeholder="Type message & press enter to send"
+        />
+        <button class="sendMsg" id="sendMsg">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script%}
+<script defer src="/js/face-api.min.js"></script>
+<script src="/js/script.js" defer></script>
+
+{% endblock %}
