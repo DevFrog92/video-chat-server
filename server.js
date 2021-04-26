@@ -49,6 +49,9 @@ app.get("/", (req, res) => {
   res.redirect(`/${uuidV4()}`);
 });
 
+app.get("/ar", (req, res) => {
+  res.render("ar/index.html");
+});
 app.use("/room", room);
 
 // app.get("/:room", (req, res) => {
