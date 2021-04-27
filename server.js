@@ -30,6 +30,7 @@ const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
 });
+const contextPath = "/video_chat";
 
 // io.set("transports", ["websocket"]);
 app.set("view engine", "ejs");
@@ -58,18 +59,18 @@ app.get("/", (req, res) => {
 
 app.get("/video_chat", (req, res) => {
   console.log("abcd in");
-  res.redirect(`video_chat/room/${uuidV4()}`);
+  res.redirect(`video_chat/${uuidV4()}`);
 });
 
 app.get("/video_chat/ar/", (req, res) => {
-  res.redirect(`video_chat/room/ar/${uuidV4()}`);
+  res.redirect(`video_chat/ar/${uuidV4()}`);
 });
 
 // app.get("/abcd/ar", (req, res) => {
 //   res.render("ar/index.html");
 // });
 
-app.use("/video_chat/room", room);
+app.use(contextPath, room);
 
 // app.get("/:room", (req, res) => {
 //   res.render("room", { roomId: req.params.room });
