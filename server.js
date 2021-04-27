@@ -7,7 +7,7 @@ const app = express();
 const server = require("http").Server(app);
 
 const nunjucks = require("nunjucks");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 
 const room = require("./routes/Room");
 const getTheGoods = require("./public/js/video");
@@ -17,8 +17,8 @@ nunjucks.configure("template", {
   express: app,
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 const io = require("socket.io")(server, {
   transports: ["polling", "websocket"],
@@ -38,12 +38,12 @@ app.use(express.static("public"));
 
 app.use("/peerjs", peerServer);
 
-app.get("/api/video", async (req, res) => {
-  // get a video api key sessionid & token
-  const theGoods = await getTheGoods();
+// app.get("/api/video", async (req, res) => {
+//   // get a video api key sessionid & token
+//   const theGoods = await getTheGoods();
 
-  res.status(200).send(theGoods);
-});
+//   res.status(200).send(theGoods);
+// });
 
 ///test
 app.get("/", (req, res) => {
