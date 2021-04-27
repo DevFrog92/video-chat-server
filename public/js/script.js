@@ -265,7 +265,7 @@ function addVideoStream(video, stream, userId, who) {
           detections,
           displaySize
         );
-        if (resizedDetections[0].expressions) {
+        if (resizedDetections[0]) {
           const arr = resizedDetections[0].expressions;
           const emotion = Object.keys(arr).sort(function (a, b) {
             return -arr[a] + arr[b];
