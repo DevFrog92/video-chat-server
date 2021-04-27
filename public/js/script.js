@@ -265,17 +265,18 @@ function addVideoStream(video, stream, userId, who) {
           detections,
           displaySize
         );
-        const arr = resizedDetections[0].expressions;
-        const emotion = Object.keys(arr).sort(function (a, b) {
-          return -arr[a] + arr[b];
-        });
-        varEmotion[emotion[0]] += 1;
+        if (resizedDetections[0].expressions) {
+          const arr = resizedDetections[0].expressions;
+          const emotion = Object.keys(arr).sort(function (a, b) {
+            return -arr[a] + arr[b];
+          });
+          varEmotion[emotion[0]] += 1;
+        }
         // console.log(varEmotion);
         canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
         faceapi.draw.drawDetections(canvas, resizedDetections);
         faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
         faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-        console.log(faceapi.draw.drawFaceExpressions(canvas, resizedDetections));
       }, 100);
     });
   }
@@ -317,4 +318,3 @@ const showInvitePopup = () => {
 const hideInvitePopup = () => {
   document.body.classList.remove("showInvite");
 };
-
