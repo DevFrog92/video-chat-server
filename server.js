@@ -45,7 +45,7 @@ app.get("/api/video", async (req, res) => {
   res.status(200).send(theGoods);
 });
 
-app.get("/abcd/", (req, res) => {
+app.get("/abcd", (req, res) => {
   res.redirect(`/abcd/room/${uuidV4()}`);
 });
 
