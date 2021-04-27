@@ -46,6 +46,7 @@ app.get("/api/video", async (req, res) => {
 });
 
 app.get("/abcd", (req, res) => {
+  console.log('abcd in')
   res.redirect(`/abcd/room/${uuidV4()}`);
 });
 
