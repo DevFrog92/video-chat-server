@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npx nodemon -e js, html server.js"
+    "start": "node server.js",
+    "heroku-postbuild":"npx webpack"
   },
   "keywords": [],
   "author": "",
