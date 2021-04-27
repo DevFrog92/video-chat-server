@@ -45,6 +45,17 @@ app.get("/api/video", async (req, res) => {
   res.status(200).send(theGoods);
 });
 
+///test
+app.get("/", (req, res) => {
+  res.redirect(`/${uuidV4()}`);
+});
+
+app.get("/:room", (req, res) => {
+  res.render("room", { roomId: req.params.room });
+});
+
+///
+
 app.get("/video_chat", (req, res) => {
   console.log("abcd in");
   res.redirect(`/room/${uuidV4()}`);
