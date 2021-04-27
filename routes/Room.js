@@ -8,7 +8,7 @@ router.get("/:roomId", (_, res) => {
   );
 });
 
-router.get("/anonymity/:roomId", (_, res) => {
+router.get("/ar/:roomId", (_, res) => {
   res.render(
     "room/RolePlaying.ejs",
     { message: "hello" } // message 란 변수를 템플릿으로 내보낸다.
