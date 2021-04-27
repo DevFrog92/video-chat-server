@@ -38,12 +38,12 @@ app.use(express.static("public"));
 
 app.use("/peerjs", peerServer);
 
-// app.get("/api/video", async (req, res) => {
-//   // get a video api key sessionid & token
-//   const theGoods = await getTheGoods();
+app.get("/api/video", async (req, res) => {
+  // get a video api key sessionid & token
+  const theGoods = await getTheGoods();
 
-//   res.status(200).send(theGoods);
-// });
+  res.status(200).send(theGoods);
+});
 
 ///test
 app.get("/", (req, res) => {
