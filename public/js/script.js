@@ -271,11 +271,11 @@ function addVideoStream(video, stream, userId, who) {
         });
         varEmotion[emotion[0]] += 1;
         // console.log(varEmotion);
-        // canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-        // faceapi.draw.drawDetections(canvas, resizedDetections);
-        // faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-        // faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-        // console.log(faceapi.draw.drawFaceExpressions(canvas, resizedDetections));
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        faceapi.draw.drawDetections(canvas, resizedDetections);
+        faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+        faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+        console.log(faceapi.draw.drawFaceExpressions(canvas, resizedDetections));
       }, 100);
     });
   }

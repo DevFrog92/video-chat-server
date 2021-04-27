@@ -45,14 +45,19 @@ app.get("/api/video", async (req, res) => {
   res.status(200).send(theGoods);
 });
 
-app.get("/", (req, res) => {
-  res.redirect(`/${uuidV4()}`);
+app.get("/abcd/", (req, res) => {
+  res.redirect(`/abcd/room/${uuidV4()}`);
 });
 
-app.get("/ar", (req, res) => {
-  res.render("ar/index.html");
+app.get("/abcd/ar/", (req, res) => {
+  res.redirect(`/abcd/room/anonymity/${uuidV4()}`);
 });
-app.use("/room", room);
+
+// app.get("/abcd/ar", (req, res) => {
+//   res.render("ar/index.html");
+// });
+
+app.use("/abcd/room", room);
 
 // app.get("/:room", (req, res) => {
 //   res.render("room", { roomId: req.params.room });
