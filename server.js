@@ -2,7 +2,6 @@
 const express = require("express");
 // running express service
 const app = express();
-
 // scoket.io를 위한 서버를 가지고 와야 한다.
 const server = require("http").Server(app);
 
@@ -30,7 +29,6 @@ const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
 });
-const contextPath = "/video_chat";
 
 // io.set("transports", ["websocket"]);
 app.set("view engine", "ejs");
@@ -48,8 +46,10 @@ app.get("/api/video", async (req, res) => {
 
 ///test
 app.get("/", (req, res) => {
+  console.log(req.query.data)
   res.redirect("/video_chat");
 });
+
 
 // app.get("/:room", (req, res) => {
 //   res.render("room", { roomId: req.params.room });
@@ -59,18 +59,18 @@ app.get("/", (req, res) => {
 
 app.get("/video_chat", (req, res) => {
   console.log("abcd in");
-  res.redirect(`video_chat/${uuidV4()}`);
+  res.redirect(`video_chat/room/${uuidV4()}`);
 });
 
-app.get("/video_chat/ar/", (req, res) => {
-  res.redirect(`video_chat/ar/${uuidV4()}`);
+app.get("/ar", (req, res) => {
+  res.redirect(`video_chat/room/ar/${uuidV4()}`);
 });
 
 // app.get("/abcd/ar", (req, res) => {
 //   res.render("ar/index.html");
 // });
 
-app.use(contextPath, room);
+app.use("/video_chat/room", room);
 
 // app.get("/:room", (req, res) => {
 //   res.render("room", { roomId: req.params.room });
