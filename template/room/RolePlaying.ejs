@@ -2,10 +2,27 @@
 {% extends "layout/base.html" %}
 
 {% block style -%}
-<link rel="stylesheet" href="/css/RolePlaying.css">
+<link rel="stylesheet" href="/css/roleplaying.css">
 {% endblock %}
 {% block content -%}
 <div class="video-ar-chat-room-wrapper" id="video-ar-wrapper">
+  <div class="square" style="--i:0;"></div>
+  <div class="square" style="--i:1;"></div>
+  <div class="square" style="--i:2;"></div>
+  <div class="square" style="--i:3;"></div>
+  <div class="square" style="--i:4;"></div>
+  <div class="warning-for-landsacpe">
+    <div class="warging-section">
+      <div class="warning-section-wrapper">
+        <div class="warning-section-header">
+          원활한 화상채팅을 위해서 가로모드로 변경해 주세요!
+        </div>
+        <div class="warning-section-content">
+          <img src="/image/selfie.svg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="popup-wrapper">
     <div class="popup-content-wrapper">
       <div class="popup-content-section">
@@ -19,11 +36,8 @@
     </div>
   </div>
 
-  <div class="square" style="--i:0;"></div>
-  <div class="square" style="--i:1;"></div>
-  <div class="square" style="--i:2;"></div>
-  <div class="square" style="--i:3;"></div>
-  <div class="square" style="--i:4;"></div>
+
+
 <div class="video-wrapper">
   <div class="video-wrapper-controler">
     <div class="members">
@@ -64,6 +78,8 @@
         <option value="teddycigar">teddycigar</option>
         <option value="lion">Lion</option>
         <option value="koala">Koala</option>
+        <option value="snowman">Snowman</option>
+        <option value="wool_guy">Wool guy</option>
       </select>
     </div>
     </div>

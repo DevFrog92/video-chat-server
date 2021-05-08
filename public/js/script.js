@@ -20,9 +20,10 @@ const varEmotion = {
 };
 //
 const socket = io("/");
-const videoGrid = document.querySelector("#video-grid");
+const videoGrid = document.querySelector(".video-grid");
 const myVideo = document.createElement("video");
 let peers = {};
+let users  = 1;
 
 // const myPeer = new Peer(undefined, {
 //   host: "/",
@@ -34,40 +35,11 @@ let peers = {};
 var myPeer = new Peer({
   port: 443,
   config: {
-    iceServers: [
-      {
-        url: "turn:numb.viagenie.ca",
-        credential: "muazkh",
-        username: "webrtc@live.com",
-      },
-      {
-        url: "turn:192.158.29.39:3478?transport=udp",
-        credential: "JZEOEt2V3Qb0y27GRntt2u2PAYA=",
-        username: "28224511:1379330808",
-      },
-      {
-        url: "turn:192.158.29.39:3478?transport=tcp",
-        credential: "JZEOEt2V3Qb0y27GRntt2u2PAYA=",
-        username: "28224511:1379330808",
-      },
-      {
-        url: "turn:turn.bistri.com:80",
-        credential: "homeo",
-        username: "homeo",
-      },
-      {
-        url: "turn:turn.anyfirewall.com:433?transport=tcp",
-        credential: "webrtc",
-        username: "webrtc",
-      },
-      {
-        url: ["turn:13.250.13.83:3478?transport=tcp"],
-        credential: "YzYNCouZM1mhqhmseWk6",
-        username: "YzYNCouZM1mhqhmseWk6",
-      },
-    ],
+    iceServers: [{   urls: [ "stun:tk-turn2.xirsys.com" ]}, {   username: "3V3-AGNuqTdzS9UZxcrCLiqVS0YA5x6rKTSFfsl7DWMY8bA_C8KQA_fnqEcp2FK2AAAAAGCO1Sx5b25nc3U=",   credential: "9e6f83d0-ab64-11eb-8cd4-0242ac140004",   urls: [       "turn:tk-turn2.xirsys.com:80?transport=udp",       "turn:tk-turn2.xirsys.com:3478?transport=udp",       "turn:tk-turn2.xirsys.com:80?transport=tcp",       "turn:tk-turn2.xirsys.com:3478?transport=tcp",       "turns:tk-turn2.xirsys.com:443?transport=tcp",       "turns:tk-turn2.xirsys.com:5349?transport=tcp"   ]}]
   },
 });
+
+
 
 myVideo.muted = true;
 
@@ -101,13 +73,14 @@ navigator.mediaDevices
     });
 
     socket.on("user-connected", (userId) => {
+      users++;
       connectToNewUser(userId, stream);
     });
     socket.on("user-disconnected", (userId) => {
       if (peers[userId]) peers[userId].close();
     });
 
-    document.addEventListener("keydown", (e) => {
+    chatInputBox.addEventListener("keydown", (e) => {
       console.log("key down");
       if (e.which === 13 && chatInputBox.value != "") {
         socket.emit("message", {
@@ -118,7 +91,7 @@ navigator.mediaDevices
       }
     });
 
-    document.getElementById("sendMsg").addEventListener("click", (e) => {
+    document.querySelector(".sendMsg").addEventListener("click", (e) => {
       console.log("clicked");
       if (chatInputBox.value != "") {
         socket.emit("message", {
@@ -152,7 +125,8 @@ navigator.mediaDevices
         li.classList.add("otherUser");
         li.innerHTML = `<div><b>User (<small>${message.user}</small>: </b>${message.msg}</div>`;
       } else {
-        li.innerHTML = `<div><b>Me : </b>${message.msg}</div>`;
+        li.classList.add("me");
+        li.innerHTML = `<div><b>Me</b><br>${message.msg}</div>`;
       }
 
       all_messages.append(li);
@@ -160,10 +134,10 @@ navigator.mediaDevices
       if (message.user != currentUserId) {
         pendingMsg++;
         // playChatSound();
-        document.getElementById("chat__Btn").classList.add("has__new");
-        document.getElementById(
-          "chat__Btn"
-        ).children[1].innerHTML = `Chat (${pendingMsg})`;
+        // document.getElementById("chat__Btn").classList.add("has__new");
+        // document.getElementById(
+        //   "chat__Btn"
+        // ).children[1].innerHTML = `Chat (${pendingMsg})`;
       }
     });
   });
@@ -204,57 +178,75 @@ const connectToNewUser = (userId, streams) => {
     addVideoStream(video, userVideoStream, userId, "other");
   });
   call.on("close", () => {
+    users--;
     video.remove();
   });
   peers[userId] = call;
 };
 
 const playStop = () => {
+  const offair = document.querySelector('.offair');
+  const onair = document.querySelector('.onair');
+
   let enabled = myVideoStream.getVideoTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getVideoTracks()[0].enabled = false;
-    setPlayVideo();
+    offair.classList.add('hide');
+    onair.classList.remove('hide');
+    // setPlayVideo();
   } else {
-    setStopVideo();
+    // setStopVideo();
+    offair.classList.remove('hide');
+    onair.classList.add('hide');
     myVideoStream.getVideoTracks()[0].enabled = true;
   }
 };
 
 const muteUnmute = () => {
+  const mute = document.querySelector('.mute');
+  const unmute = document.querySelector('.unmute');
   let enabled = myVideoStream.getAudioTracks()[0].enabled;
   if (enabled) {
     myVideoStream.getAudioTracks()[0].enabled = false;
-    setUnmuteButton();
+    mute.classList.add('hide');
+    unmute.classList.remove('hide');
+    // setUnmuteButton();
   } else {
-    setMuteButton();
+    mute.classList.remove('hide');
+    unmute.classList.add('hide');
+    // setMuteButton();
     myVideoStream.getAudioTracks()[0].enabled = true;
   }
 };
 
 function addVideoStream(video, stream, userId, who) {
   video.srcObject = stream;
-  video.id = "publisher";
+  video.id = 'video-live';
   video.addEventListener("loadedmetadata", () => {
+    playStop();
+    muteUnmute()
     video.play();
+
+    // video.pause();
+    // video.currentTime = 0;
   });
   console.log("video attached");
   videoGrid.append(video);
-  let totalUsers = document.querySelectorAll("video").length;
-  console.log("total", videoGrid.clientWidth, videoGrid.clientHeight);
+  video.enabled = true;
+
   console.log(userId, who);
   if (who === "me") {
     video.addEventListener("play", () => {
       if (document.querySelector("canvas")) {
         document.querySelector("canvas").remove();
       }
-      const videoEle = document.querySelector("video");
       const canvas = faceapi.createCanvasFromMedia(video);
       videoGrid.append(canvas);
       const displaySize = {
-        width: video.clientWidth + 20,
-        height: video.clientHeight + 20,
+        width: video.clientWidth ,
+        height: video.clientHeight,
       };
-      console.log(displaySize, video.clientWidth);
+      // console.log(displaySize, video.clientWidth);
       faceapi.matchDimensions(canvas, displaySize);
       setInterval(async () => {
         const detections = await faceapi
@@ -265,17 +257,19 @@ function addVideoStream(video, stream, userId, who) {
           detections,
           displaySize
         );
-        const arr = resizedDetections[0].expressions;
-        const emotion = Object.keys(arr).sort(function (a, b) {
-          return -arr[a] + arr[b];
-        });
-        varEmotion[emotion[0]] += 1;
+        if(resizedDetections && resizedDetections[0]){
+          const arr = resizedDetections[0].expressions;
+          const emotion = Object.keys(arr).sort(function (a, b) {
+            return -arr[a] + arr[b];
+          });
+          varEmotion[emotion[0]] += 1;
+        }
         // console.log(varEmotion);
         canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
         faceapi.draw.drawDetections(canvas, resizedDetections);
         faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
         faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-        console.log(faceapi.draw.drawFaceExpressions(canvas, resizedDetections));
+        // console.log(varEmotion);
       }, 100);
     });
   }

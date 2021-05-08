@@ -45,10 +45,10 @@ app.get("/api/video", async (req, res) => {
 });
 
 ///test
-app.get("/", (req, res) => {
-  console.log(req.query.data)
-  res.redirect("/video_chat");
-});
+// app.get("/", (req, res) => {
+//   console.log(req.query.data)
+//   res.redirect("/video_chat");
+// });
 
 
 // app.get("/:room", (req, res) => {
@@ -57,13 +57,17 @@ app.get("/", (req, res) => {
 
 ///
 
-app.get("/video_chat", (req, res) => {
+app.get("/", (req, res) => {
   console.log("abcd in");
   res.redirect(`video_chat/room/${uuidV4()}`);
 });
 
 app.get("/ar", (req, res) => {
   res.redirect(`video_chat/room/ar/${uuidV4()}`);
+});
+
+app.get("/secret", (req, res) => {
+  res.redirect(`video_chat/room/secret/${uuidV4()}`);
 });
 
 // app.get("/abcd/ar", (req, res) => {

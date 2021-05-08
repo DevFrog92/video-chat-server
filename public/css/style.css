@@ -1,59 +1,74 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-html,
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+
 .room-wrapper {
   width: 100vw;
   height: 100vh;
+  position:relative;
+  background-image: linear-gradient(to top, #b3ffab 0%, #12fff7 100%);
+  background-blend-mode: multiply,multiply;
+  /* overflow: hidden; */
 }
 
 .main {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   display: flex;
+  justify-content: space-between;
+  
 }
 
 .main__left {
-  width: 80%;
-  height: 100vh;
+  width: 78%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: antiquewhite;
+  padding: 1rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(25px);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .main__videos {
   width: 100%;
+  height: 90%;
+  padding: 1rem;
+}
+
+.video-grid {
+  width: 100%;
   height: 100%;
-  padding: 2rem;
-  background-color: azure;
-  border: 1px solid tomato;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-gap: 10px;
 }
 
-.main__right {
-  width: 20%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid #3d3d42;
-  background-color: aqua;
 
+#video-live {
+  width: 100%;
+  /* height: 50rem; */
+  border-radius: 1rem;
+  border: 3px solid rgba(255, 255, 255, 0.2);
 }
-
 
 
 .main__controls {
   display: flex;
-  padding: 5px;
-  height: 4rem;
-  border: 1px solid tomato;
+  padding:1rem 2rem;
+  height: 5rem;
   justify-content: space-between;
 }
 
@@ -61,72 +76,104 @@ body {
   display: flex;
 }
 .main__controls_button {
+  position: relative;
+  min-width: 3.5rem;
+  min-height:3.5rem;
+  margin-right: 2rem;
+
+}
+
+.main__controls_button img {
+  opacity: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -10px;
+  z-index: 1;
+}
+
+img.hide {
+  opacity: 0;
+  z-index: -1;
+}
+
+.main__right {
+  width: 20%;
+  height: 100%;
   display: flex;
+  padding: 1rem;
   flex-direction: column;
-  cursor: pointer;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  min-width: 80px;
-  transition: all 0.3s ease-in-out;
-  border-radius: 10px;
-  margin: 5px;
+  border-radius: 1rem;
+  backdrop-filter: blur(25px);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-.main__controls_button span {
-  margin-top: 10px;
-  display: block;
-}
-.main__controls_button:hover {
-  background-color: #34383b;
-}
-.main__controls_button i {
-  font-size: 25px;
-}
-.main__header {
-  text-align: center;
-  padding: 20px;
-  border-bottom: 2px solid #3d3d42;
-}
+
+
 .main__chat__window {
-  flex-grow: 1;
-  overflow: auto;
-  padding: 20px 20px 0 20px;
-  border: 1px solid maroon;
+  /* margin-top: 1.5rem; */
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  /* flex-grow: 1; */
+  overflow-x: hidden;
+  /* border: 3px solid rgba(0, 0, 0, 0.2); */
 }
+.messages {
+  width: 100%;
+  padding: 0;
+  list-style: none;
+}
+ li {
+   padding: 0.2rem 0.5rem;
+   margin: 0.5rem 0;
+   background-color: antiquewhite;
+   border-radius: 10px;
+   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+ }
+
+.me {
+  text-align: right;
+}
+
+
+
 .main__message_container {
-  height: 4rem;
-  padding: 22px 11px;
+  width: 90%;
+  padding: 1rem 0 0;
+  /* height: 15%; */
   display: flex;
 }
 .main__message_container input {
+  width: 100%;
+  height: 100%;
   flex-grow: 1;
+  padding: 0.3rem 0.5rem;
+  margin: 0;
+  font-size: 1rem;
   background-color: transparent;
   border: none;
   user-select: none;
   outline: none;
 }
+.sendMsg {
+  width: 10%;
+  height: 100%;
+  cursor: pointer;
+}
 
-#all_messages li {
-  list-style: none;
-  border-bottom: 1px solid #3d3d42;
-  padding: 10px 0;
+.sendMsg img {
+  width: 100%;
+  height: 100%
 }
 .unmute {
   color: red;
 }
 
-#video-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
-}
-
-video {
-  width: 100%;
-  border: 3px #fff solid;
-  border-radius: 10px;
-  position: relative;
-}
 
 canvas {
   position: absolute;

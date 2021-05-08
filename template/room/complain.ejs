@@ -1,0 +1,68 @@
+{% set title = "하소연" %}
+{% extends "layout/base.html" %}
+
+{% block style -%}
+<link rel="stylesheet" href="/css/complain.css">
+{% endblock %}
+{% block content -%}
+<div class="character-wrapper">
+  <!-- <video autoplay muted loop id="myVideo">
+    <source src="/video/Confetti.mp4" type="video/mp4">
+  </video>
+  <button id="myBtn" onclick="myFunction()">Pause</button> -->
+  <div class="first_guid">
+    <h1>안녕하세요. </h1>
+    <p>하소연방에 잘 오셨어요!</p>
+    <p>오늘의 모든 고민 또는 걱정을 이곳에 두고 가세요!</p>
+    <div class="entrance_btn">고민 보관하기</div>
+  </div>
+  <div class="main">
+    <div class="monster">
+     <div class="monster__hair"></div>
+      <div class="monster__face">
+        <div class="monster__eyes">
+          <div class="monster__eye"></div>
+          <div class="monster__eye"></div>
+        </div>
+        <div class="monster__cheek">
+          <div class="monster__cheek__point"></div>
+          <div class="monster__cheek__point"></div>
+        </div>
+        <div class="monster__mouth">
+          <div class="monster__top"></div>
+          <div class="monster__bottom"></div>
+        </div>
+        <div class="monster__body">
+          <div class="monster__left__hand"></div>
+          <div class="monster__right__hand"></div>
+        </div>
+      </div>
+    </div>
+    <div class="monster__bg shadow">
+    </div>
+    <div class="speech__recognition">
+      <h1>고민 작성 소</h1>
+      <div class="text"></div>
+    </div>
+  </div>
+  <div class="video__wrapper">
+  <div class="self_video">
+
+  </div>
+</div>
+  <div class="btn_wrapper">
+    <div class="btn1  btn" data-value='1'>1</div>
+    <div class="btn2  btn" data-value='2'>2</div>
+    <div class="btn3  btn" data-value='3'>3</div>
+    <div class="btn4  btn" data-value='4'>4</div>
+    <div class="btn4  btn" data-value='5'>5</div>
+    <div class="btn4  btn" data-value='6'>6</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script%}
+<script defer src="/js/face-api.min.js"></script>
+<script src="/js/complain.js" defer></script>
+
+{% endblock %}

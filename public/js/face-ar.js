@@ -237,3 +237,26 @@ exit.addEventListener('click', ()=> {
   window.close();
 
 })
+
+if (window.matchMedia('(orientation: portrait)').matches) {
+  console.log('세로야 임마!')
+
+		// Portrait 모드일 때 실행할 스크립트
+		// 폭과 높이가 같으면 Portrait 모드로 인식돼요
+	} else {
+		// Landscape 모드일 때 실행할 스크립트
+  console.log('가로 모드로 돌리기')
+
+	}
+
+const warning = document.querySelector('.warning-for-landsacpe')
+window.addEventListener('resize', function () {
+	if (window.matchMedia('(orientation: portrait)').matches) {
+    warning.classList.add('warning-show')
+      // Portrait 모드일 때 실행할 스크립트
+      // 폭과 높이가 같으면 Portrait 모드로 인식돼요
+    } else {
+      warning.classList.remove('warning-show')
+      // Landscape 모드일 때 실행할 스크립트
+    }
+});
