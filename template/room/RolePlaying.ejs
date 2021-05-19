@@ -27,7 +27,7 @@
     <div class="popup-content-wrapper">
       <div class="popup-content-section">
       <div class="popup-content-header">채팅방을 떠나시겠습니까?</div>
-      <div class="popup-content-content"><img src="/image/unicorn.svg" alt=""></div>
+      <div class="popup-content-content"><img src="/image/phonecall.svg" alt=""></div>
       <div class="popup-content-btns">
         <div class="exit-btn">떠날래요!</div>
         <div class="exit-canlce-btn">안떠날래요!</div>
@@ -41,24 +41,22 @@
 <div class="video-wrapper">
   <div class="video-wrapper-controler">
     <div class="members">
-      <h2>참가자</h2>
-      <ul class="user-wrapper">
-        <li><span class="avatar"><img src="/image/happy.png" alt=""></span></li>
-      </ul>
-      <div class="exit-room">
-      <span class="exit"><img src="/image/exit.png" alt=""> </span>채팅방 나가기
-    </div>
+      
     </div>
     <div id="controls">
       <div class="controls_menu">
     <div class="control_btns">
     <div class="silence">
-      <img src="/image/unsilence.svg" class="unmute" alt="">
-      <img src="/image/silence.svg" class="mute hide" alt="">
+      <!-- <img src="/image/unsilence.svg" class="unmute" alt=""> -->
+      <div class="unmute">음소거 해제</div>
+      <div class="mute hide">음소거</div>
+      <!-- <img src="/image/silence.svg" class="mute hide" alt=""> -->
     </div>
     <div class="video_show">
-      <img src="/image/off-air.svg" class="offair hide" alt="">
-      <img src="/image/on-air.svg" class="onair " alt="">
+      <div class="offair hide">비디오 끄기</div>
+      <div class="onair ">비디오 시작</div>
+      <!-- <img src="/image/off-air.svg" class="offair hide" alt=""> -->
+      <!-- <img src="/image/on-air.svg" class="onair " alt=""> -->
     </div>
     </div>
       <div class="select">
@@ -82,6 +80,10 @@
         <option value="wool_guy">Wool guy</option>
       </select>
     </div>
+    <div class="exit-room">
+      <span class="exit"><img src="/image/exit.png" alt=""> </span>
+      <span class="exit-btn">채팅방 나가기</span>
+    </div>
     </div>
     </div>  
   </div>
@@ -98,11 +100,11 @@
     <div class="main__chat__window" id="main__chat__window">
       <ul class="messages" id="all_messages"></ul>
     </div>
-    <div class="main__message_container">
+    <div class="main__message__container">
       <input
         type="text"
         id="chat_message"
-        placeholder=">> 메세지 보내기"
+        placeholder="상대방에게 메세지 보내기"
       />
       <div class="sendMsg">
         <img src="/image/send.svg" alt="">

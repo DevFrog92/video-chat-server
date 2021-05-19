@@ -49,10 +49,11 @@ socket.on("client createMessage", (message) => {
   let li = document.createElement("li");
   if (message.user != currentUserId) {
     li.classList.add("otherUser");
-    li.innerHTML = `<div><b>User (<small>${message.user}</small>: </b>${message.msg}</div>`;
+    // li.innerHTML = `<div><b>익명이<small>${message.user}</small>: </b>${message.msg}</div>`;
+    li.innerHTML = `<div><b>익명이</b><br>${message.msg}</div>`;
   } else {
     li.classList.add("me");
-    li.innerHTML = `<div><b>Me</b><br>${message.msg}</div>`;
+    li.innerHTML = `<div><b>나</b><br>${message.msg}</div>`;
   }
 
   all_messages.append(li);
@@ -98,7 +99,7 @@ fetch("/api/video")
   .catch((err) => console.log(err));
 
 function initializeSession(video_apiKey, video_sessionId) {
-  const users =document.querySelector('.user-wrapper')
+  // const users =document.querySelector('.user-wrapper')
   var session = OT.initSession(video_apiKey, video_sessionId);
   
   // Subscribe to a newly created stream
@@ -106,10 +107,12 @@ function initializeSession(video_apiKey, video_sessionId) {
   session.on("streamCreated", function (event) {
     
     people++;
-    const member = document.createElement('li')
-    member.innerHTML = `<span class="avatar"><img src="/image/happy.png"></span>`
-    myProfile = member;
-    users.append(member);
+    // const member = document.createElement('li')
+    // const userName =decodeURIComponent(document.cookie).split(';');
+    // console.log(userName)
+    // member.innerHTML = `<span class="avatar"><img src="/image/happy.png"></span>`
+    // myProfile = member;
+    // users.append(member);
     console.log('stream Created',people)
     session.subscribe(
       event.stream,

@@ -123,7 +123,7 @@ navigator.mediaDevices
       let li = document.createElement("li");
       if (message.user != currentUserId) {
         li.classList.add("otherUser");
-        li.innerHTML = `<div><b>User (<small>${message.user}</small>: </b>${message.msg}</div>`;
+        li.innerHTML = `<div><b>익명이</b>${message.msg}</div>`;
       } else {
         li.classList.add("me");
         li.innerHTML = `<div><b>Me</b><br>${message.msg}</div>`;
@@ -275,40 +275,46 @@ function addVideoStream(video, stream, userId, who) {
   }
 }
 
-const setPlayVideo = () => {
-  const html = `<i class="unmute fa fa-pause-circle"></i>
-  <span class="unmute">Resume Video!</span>`;
-  document.getElementById("playPauseVideo").innerHTML = html;
-};
 
-const setStopVideo = () => {
-  const html = `<i class=" fa fa-video-camera"></i>
-  <span class="">Pause Video!</span>`;
-  document.getElementById("playPauseVideo").innerHTML = html;
-};
 
-const setUnmuteButton = () => {
-  const html = `<i class="unmute fa fa-microphone-slash"></i>
-  <span class="unmute">Unmute</span>`;
-  document.getElementById("muteButton").innerHTML = html;
-};
-const setMuteButton = () => {
-  const html = `<i class="fa fa-microphone"></i>
-  <span>Mute</span>`;
-  document.getElementById("muteButton").innerHTML = html;
-};
+const popup = document.querySelector('.popup-wrapper')
+const exitBtn = document.querySelector('.exit-room');
+const exitCancle = document.querySelector('.exit-canlce-btn');
+const exit = document.querySelector('.exit-btn')
+exitBtn.addEventListener('click',()=>{
+  popup.classList.add('popup-show')
+})
 
-const ShowChat = (e) => {
-  e.classList.toggle("active");
-  document.body.classList.toggle("showChat");
-};
+exitCancle.addEventListener('click',()=>{
+  popup.classList.remove('popup-show')
 
-const showInvitePopup = () => {
-  document.body.classList.add("showInvite");
-  document.getElementById("roomLink").value = window.location.href;
-};
+})
 
-const hideInvitePopup = () => {
-  document.body.classList.remove("showInvite");
-};
+exit.addEventListener('click', ()=> {
+  window.open('', '_self', '');
+  window.close();
 
+})
+
+if (window.matchMedia('(orientation: portrait)').matches) {
+  console.log('세로야 임마!')
+
+		// Portrait 모드일 때 실행할 스크립트
+		// 폭과 높이가 같으면 Portrait 모드로 인식돼요
+	} else {
+		// Landscape 모드일 때 실행할 스크립트
+  console.log('가로 모드로 돌리기')
+
+	}
+
+const warning = document.querySelector('.warning-for-landsacpe')
+window.addEventListener('resize', function () {
+	if (window.matchMedia('(orientation: portrait)').matches) {
+    warning.classList.add('warning-show')
+      // Portrait 모드일 때 실행할 스크립트
+      // 폭과 높이가 같으면 Portrait 모드로 인식돼요
+    } else {
+      warning.classList.remove('warning-show')
+      // Landscape 모드일 때 실행할 스크립트
+    }
+});
