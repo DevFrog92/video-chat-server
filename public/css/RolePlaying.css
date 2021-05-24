@@ -1,3 +1,44 @@
+/*-------- 폰트  (손글씨용)--------------*/
+@font-face {
+  /*사랑해아들체*/
+  font-family: 'Love_son';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_07@1.0/Love_son.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*--------- 폰트(명언용)----------- */
+@font-face {
+  /*경기청년바탕*/
+  font-family: 'GyeonggiBatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiBatang.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*------------ 폰트(굵은글씨용) -----------*/
+
+@font-face {
+  /*인피니티산스 ------> 메인 */
+  font-family: 'InfinitySans-BoldA1';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-BoldA1.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  /*서평원꺾깎체------>서브메인 */
+  font-family: 'SLEIGothicTTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SLEIGothicTTF.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 body,html {
   margin: 0;
   padding: 0;
@@ -5,6 +46,7 @@ body,html {
   height: 100vh;
   box-sizing: border-box;
   overflow: hidden;
+  font-family: 'InfinitySans-BoldA1';
   /* overflow:hidden; */
 }
 .video-ar-chat-room-wrapper {
@@ -76,6 +118,7 @@ body,html {
   background-color: rgba(0,0,0,0.7);
   position: absolute;
   backdrop-filter: blur(30px);
+  font-family: 'SLEIGothicTTF';
 
   top: 0;
   left: 0;
@@ -112,6 +155,7 @@ body,html {
 .popup-content-content {
   width: 50%;
   height: 50%;
+  
 }
 
 .popup-content-content img {
@@ -132,12 +176,11 @@ body,html {
   font-weight: 600;
   cursor: pointer;
   color: #fff;
-  letter-spacing: 1px;
   border-radius: 10px;
   padding: 0.5rem;
+  letter-spacing: 2px ;
   background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
   
-  border: 2px solid rgba(255, 255, 255, 0.9);
 }
 .popup-show {
   opacity: 1;
@@ -347,6 +390,7 @@ select {
   border: 0;
   border-radius: 1rem;
   background-color: #7f94f1;
+  font-family: 'SLEIGothicTTF';
   
   background-image: none;
 }
@@ -434,11 +478,14 @@ select {
   user-select: none;
   outline: none;
   border-radius: 0.5rem;
-  border: 3px solid rgba(255, 255, 255, 0.5);
+  font-family: 'SLEIGothicTTF';
+  border:3px solid rgba(255, 255, 255, 0.7);
 }
 .main__message__container input::placeholder{
   font-weight: 400;
   font-size: 0.8rem;
+  font-family: 'SLEIGothicTTF';
+
 }
 
 .sendMsg {
@@ -528,6 +575,7 @@ select {
   padding: 0 0.8rem ;
 }
 
+
 .silence div, .video_show div {
   opacity: 1;
   position: absolute;
@@ -547,6 +595,10 @@ select {
   color: #fff;
   border-radius: 0.5rem;
   background-color: #7f94f1;
+}
+
+.onair,.unmute {
+  color: red;
 }
 
 .silence div.hide, .video_show div.hide{

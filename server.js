@@ -11,7 +11,7 @@ const bodyParser = require("body-parser");
 const sessionstorage = require('sessionstorage');
 const room = require("./routes/Room");
 const getTheGoods = require("./public/js/video");
-
+let userId ;
 nunjucks.configure("template", {
   autoescape: true,
   express: app,
@@ -45,6 +45,10 @@ app.get("/api/video", async (req, res) => {
   res.status(200).send(theGoods);
 });
 
+app.post("/userId",(req,res) =>{
+  res.status(200).send(JSON.stringify({userId:userId}));
+})
+
 ///test
 // app.get("/", (req, res) => {
 //   console.log(req.query.data)
@@ -71,6 +75,7 @@ app.post('/ar',(req,res)=>{
   console.log(req.body.roomId);
   console.log(req.body.userId);
   console.log(req.body.roomName);
+  userId = req.body.userId;
   res.cookie('userId',req.body.userId);
   sessionstorage.setItem('userNickName',req.body.userId);
   // sessionStorage.setItem('userNickName',req.body.userId);
@@ -88,13 +93,6 @@ app.post("/secret", (req, res) => {
 
 app.use("/video_chat/room", room);
 
-// app.get("/:room", (req, res) => {
-//   res.render("room", { roomId: req.params.room });
-// });
-
-// app.get("/role/:room", (req, res) => {
-//   res.render("RolePlaying", { roomId: req.params.room });
-// });
 // web page에 연결되었을때 언제나 실행된다.
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId) => {
@@ -105,7 +103,6 @@ io.on("connection", (socket) => {
     socket.broadcast.to(roomId).emit("user-connected", userId);
     // message emit 수신부
     socket.on("message", (message) => {
-      console.log("message", message);
       io.to(roomId).emit("createMessage", message);
     });
     socket.on("disconnect", () => {
@@ -113,7 +110,6 @@ io.on("connection", (socket) => {
     });
   });
   socket.on("client message", (message) => {
-    console.log("message", message);
     io.emit("client createMessage", message);
   });
 });

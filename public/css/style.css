@@ -1,4 +1,43 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+/*-------- 폰트  (손글씨용)--------------*/
+@font-face {
+  /*사랑해아들체*/
+  font-family: 'Love_son';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_07@1.0/Love_son.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*--------- 폰트(명언용)----------- */
+@font-face {
+  /*경기청년바탕*/
+  font-family: 'GyeonggiBatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiBatang.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*------------ 폰트(굵은글씨용) -----------*/
+
+@font-face {
+  /*인피니티산스 ------> 메인 */
+  font-family: 'InfinitySans-BoldA1';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-BoldA1.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  /*서평원꺾깎체------>서브메인 */
+  font-family: 'SLEIGothicTTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SLEIGothicTTF.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 * {
   margin: 0;
@@ -7,6 +46,8 @@
 }
 
 .room-wrapper {
+  font-family: 'InfinitySans-BoldA1';
+
   width: 100vw;
   height: 100vh;
   position:relative;
@@ -102,9 +143,14 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  font-size: 1.1rem;
   top: 0;
   z-index: 1;
 }
+.onair {
+  color: red;
+}
+
 
 div.hide {
   opacity: 0;
@@ -179,6 +225,8 @@ div.hide {
   padding: 1rem 0 0;
   /* height: 15%; */
   display: flex;
+  font-family: 'SLEIGothicTTF';
+
 }
 .main__message_container input {
   width: 100%;
@@ -191,6 +239,8 @@ div.hide {
   border: none;
   user-select: none;
   outline: none;
+  font-family: 'SLEIGothicTTF';
+
 }
 .sendMsg {
   width: 10%;
@@ -329,6 +379,8 @@ canvas {
   position: relative;
   width: 100%;
   height: 100%;
+  font-family: 'SLEIGothicTTF';
+
 }
 
 .popup-content-section {
@@ -375,12 +427,11 @@ canvas {
   font-weight: 600;
   cursor: pointer;
   color: #fff;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   border-radius: 10px;
   padding: 0.5rem;
   background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
   
-  border: 2px solid rgba(255, 255, 255, 0.9);
 }
 .popup-show {
   opacity: 1;

@@ -9,7 +9,7 @@ router.get("/:roomId", (_, res) => {
 
 router.get("/ar/:roomId", (_, res) => {
   res.render(
-    "room/roleplaying.ejs",
+    "room/RolePlaying.ejs",
   );
 });
 router.get("/secret/:roomId", (_, res) => {

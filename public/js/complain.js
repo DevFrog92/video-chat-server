@@ -1,43 +1,19 @@
-const btnWrapper = document.querySelector('.btn_wrapper')
 const selfVideo = document.querySelector('.self_video')
 const myVideo = document.createElement("video");
 const enteranceBtn = document.querySelector('.entrance_btn');
 const firstGuid = document.querySelector('.first_guid')
 const mouth = document.querySelector('.monster__mouth');
-const arr = [0,0,0,0,0,0,0,0,0,0,0,0,2,3]
-let text;
-let answer = 0;
-myVideo.muted = true;
+const video = document.getElementById("myVideo");
+const btn = document.getElementById("myBtn");
+const recordedAudio = document.querySelector('#recordedAudio');
+let rec;
+let storyContent = '';
+let sadState=0;
+let currentSad=0;
+let audioChunks =[];
 
-enteranceBtn.addEventListener('click',()=>{
-  sayHello()
-  firstGuid.classList.add('hide_guid');
-  audioPlay(1);
-  setTimeout(()=>{
-    defaultFace()
-  },1500)
-    recognition.start();
-    setTimeout(()=>{
-      startFaceDetecting()
-    },500)
-})
-
-function defaultFace(){
-  mouth.style.animation = "umm .5s "
-}
-
-function sayHello(){
-  mouth.style.animation = "hello 1.75s forwards"
-}
-
-function saySpeek(){
-  console.log('start')
-  mouth.style.animation = "mouth1 1.75s forwards"
-}
-
-function sayLongSpeek(){
-  mouth.style.animation = "mouth 3.75s forwards"
-}
+// const video = document.querySelector('.myVideo')
+const arr = [0,0,0,0,0,0,0,0,0,0,0,0,2,3];
 const varEmotion = {
   angry: 0,
   disgusted: 0,
@@ -47,24 +23,45 @@ const varEmotion = {
   sad: 0,
   surprised: 0,
 };
+let text;
+let answer = 0;
+myVideo.muted = true;
+
+enteranceBtn.addEventListener('click',()=>{
+  sayHello()
+  firstGuid.classList.add('hide_guid');
+  audioPlay(0);
+  saySpeek();
+  recognition.start();
+  setTimeout(()=>{
+    startFaceDetecting()
+  },2750)
+})
+
+function defaultFace(){
+  mouth.style.animation = "umm .5s "
+}
+
+function sayHello(){
+  mouth.style.animation = "none";
+  mouth.style.animation = "hello 1.75s forwards"
+}
+
+function saySpeek(){
+  console.log('start')
+  mouth.style.animation = "mouth1 2.75s forwards"
+}
+
+function sayLongSpeek(){
+  mouth.style.animation = "mouth 3.35s forwards"
+}
+
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
   faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
   faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
   faceapi.nets.faceExpressionNet.loadFromUri("/models"),
 ]);
-
-
-btnWrapper.addEventListener('click',e => {
-  if(e.target.classList.contains('btn')){
-    const id = e.target.dataset.value;
-    const audio = new Audio(`/audio/sound${id}.mp3`);
-    audio.loop = false; // 반복재생하지 않음
-    audio.volume = 0.5; // 음량 설정
-    // audio.play(); // sound1.mp3 재생
-  }
-})
-
 
 
 let myVideoStream;
@@ -79,12 +76,49 @@ var getUserMedia =
   navigator.mediaDevices
   .getUserMedia({
     video: true,
-    audio: false,
+    audio: true,
   })
   .then((stream) => {
     myVideoStream = stream;
     addVideoStream(myVideo, stream);
+    handlerFunction(stream);
   })
+
+
+
+// recording
+function handlerFunction(stream) {
+  rec = new MediaRecorder(stream);
+  rec.ondataavailable = e => {
+    audioChunks.push(e.data);
+    if (rec.state == "inactive"){
+      console.log(audioChunks)
+      let blob = new Blob(audioChunks,{type:'audio/mp3'});
+      recordedAudio.src = URL.createObjectURL(blob);
+      recordedAudio.controls=true;
+      recordedAudio.autoplay=true;
+    }
+  }
+}
+
+const record = document.querySelector('#record');
+const stopRecord = document.querySelector('#stopRecord');
+record.addEventListener('click',(e)=>{
+  console.log('recording start');
+  record.disabled = true;
+  record.style.backgroundColor = 'blue';
+  stopRecord.disabled = false;
+  audioChunks =[];
+  rec.start();
+})
+stopRecord.addEventListener('click',(e)=>{
+  console.log('recording stop');
+  record.disabled = false;
+  record.style.backgroundColor = 'red';
+  stopRecord.disabled = true;
+  rec.stop();
+})
+
 
 function addVideoStream(video, stream) {
   video.srcObject = stream;
@@ -135,76 +169,198 @@ function addVideoStream(video, stream) {
 }
 
 
-const textSection = document.querySelector('.text');
 
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 const recognition = new window.SpeechRecognition();
 recognition.interimResults = true;
 
-let p =document.createElement('span');
 recognition.addEventListener('result',(e)=>{
-  console.log('입력되었다')
+
+  sadState = varEmotion['sad'];
   text = Array.from(e.results)
   .map(result => result[0])
   .map(result => result.transcript)
   .join('');
-  p.innerText = text;
   // textSection.appendChild(p)
-  console.log(text)
   if(e.results[0].isFinal){
-  let p =document.createElement('span');
-  p.innerText = " "+text;
-  textSection.appendChild(p)
-  if(text.includes('안녕') && answer === 0){
-    sayHello()
-    audioPlay(1)
-    setTimeout(()=>{
+    console.log(text)
+    if(text.includes('안녕')|| text.includes('반가워')  && answer === 0){
+      currentSad = varEmotion['sad'];
       defaultFace()
-    },1500)
-  }
+      answer++;
+      setTimeout(()=>{
+        sayLongSpeek();
+        audioPlay(12)
+      },200)
+    }
 
-  if(text.includes('다음에 또 올게')){
-    console.log(varEmotion['happy'])
-    const varEmotion_current = varEmotion['happy']
-    let now;
-    audioPlay(4)
-    sayLongSpeek();
-    setTimeout(()=>{
-      now =varEmotion['happy']
-      console.log('now',now,varEmotion_current)
-      if(now - varEmotion_current >= 2){
-        console.log('고마워')
-        mouth.style.animation = 'stop 1s'
+    if(text.includes('아니')|| text.includes('별로') || text.includes('행복하지 않았어') && answer === 1){
+      defaultFace()
+      storyContent = 'sad';
+      answer++;
+      setTimeout(()=>{
+        sayHello();
+        audioPlay(13)
+      },200)
+    }
+    
+    if(text.includes('응')|| text.includes('행복했어') || text.includes('재밌었어') && answer === 1){
+      defaultFace()
+      storyContent = 'happy';
+      answer++;
+      setTimeout(()=>{
         saySpeek();
-        audioPlay(5)
-        setTimeout(()=>{
-          defaultFace()
-        },2500)
-        setTimeout(() => {
-          saySpeek();
-          audioPlay(6)
-          setTimeout(()=>{
-            defaultFace()
-          },4000)
-        },2200);
-      }
-    },9000);
-  }
+        audioPlay(14)
+      },300)
+    }
 
-  if(text.includes('힘들어')){
-    sayHello();
-    audioPlay(3);
-    setTimeout(()=>{
+    if(text.includes('재밌었') || text.includes('신났어') ||text.includes('즐거웠어') || text.includes('즐겁다')){
       defaultFace()
-    },2500)
-  }
-}
+      let happy = [9,16]
+      setTimeout(()=>{
+        sayHello();
+        audioPlay(happy[Math.round(Math.random())])
+      },300)
+    }
+    if(text.includes('혼났어') || text.includes('화냈어') || text.includes('맞았어') || text.includes('기분 나빴어')){
+      defaultFace()
+      setTimeout(()=>{
+        sayHello();
+        audioPlay(10)
+      },300)
+    }
+    if(text.includes('내 말을 안 들어줘') || text.includes('들어 줄 사람이 없어') || text.includes('들어줄 사람이 없어') || text.includes('이야기할 사람이 없어')){
+      defaultFace()
+      setTimeout(()=>{
+        saySpeek();
+        audioPlay(21)
+      },300)
+    }
 
+    console.log(varEmotion['happy'])
+
+    if(text.includes('다음에 또 올게') || text.includes('갈게') ){
+      console.log(varEmotion['happy'])
+      const varEmotion_current = varEmotion['happy'];
+      let now;
+      defaultFace()
+      setTimeout(()=>{
+        saySpeek();
+        audioPlay(3)
+      },200)
+      setTimeout(()=>{
+        defaultFace()
+        setTimeout(()=>{
+          saySpeek();
+          audioPlay(4)        
+        },200)
+      },3200)
+      setTimeout(()=>{
+        console.log('시작한다. 카운트')
+        defaultFace()
+        setTimeout(()=>{
+          sayHello();
+          audioPlay(5);
+        },200)
+        console.log('now',now,varEmotion_current)
+        setTimeout(()=>{
+          now =varEmotion['happy'];
+          if(now - varEmotion_current >= 2){
+            console.log('고마워',now,varEmotion)
+            defaultFace()
+            setTimeout(()=>{
+              saySpeek();
+              btn.click();
+              audioPlay(6);
+            },200)
+            setTimeout(()=>{
+              defaultFace()
+              setTimeout(()=>{
+                saySpeek();
+                audioPlay(7);
+              },200)
+            },2500);
+            setTimeout(()=>{
+              defaultFace()
+              setTimeout(()=>{
+                saySpeek();
+                audioPlay(8);
+              },200)
+            },6500);
+            setTimeout(()=>{
+              defaultFace()
+              setTimeout(()=>{
+                sayHello();
+                audioPlay(22);
+                setTimeout(()=>{
+                  window.open('', '_self', '');
+                  window.close();
+                },2500)
+              },200)
+            },10000);
+          }else {
+            defaultFace()
+            setTimeout(()=>{
+              saySpeek();
+              audioPlay(23);
+            },200)
+            setTimeout(()=>{
+              defaultFace()
+              setTimeout(()=>{
+                saySpeek();
+                audioPlay(24);
+              },200)
+            },2500)
+            setTimeout(()=>{
+              defaultFace()
+              setTimeout(()=>{
+                sayHello();
+                audioPlay(22);
+                setTimeout(()=>{
+                  window.open('', '_self', '');
+                  window.close();
+                },2500)
+              },200)
+            },5500)
+          }
+        },2500)
+      },7700);
+    }
+
+    if(text.includes('힘들')){
+      let hard = [2,15];
+      sayHello();
+      console.log(Math.round(Math.random()))
+      audioPlay(hard[Math.round(Math.random())]);
+      setTimeout(()=>{
+        defaultFace()
+      },2500)
+    }
+    if(text.includes('속상')){
+      let bad = [1,15];
+      sayHello();
+      console.log(Math.round(Math.random()))
+      audioPlay(bad[Math.round(Math.random())]);
+      setTimeout(()=>{
+        defaultFace()
+      },2500)
+    }
+  }
 })
 
 recognition.addEventListener('end',()=>{
   console.log('end')
+  console.log('sadState',sadState)
+  if(sadState >= 20){
+    sadState = 0;
+    varEmotion['sad'] = 0;
+    defaultFace()
+    setTimeout(()=>{
+      saySpeek();
+      audioPlay(20);
+    },200)
+  }
   // console.log(arr[Math.floor(Math.random()*arr.length)])
   const randomNumber = arr[Math.floor(Math.random()*arr.length)]
   // console.log(Math.random() * 10)
@@ -219,14 +375,9 @@ recognition.addEventListener('end',()=>{
 })
 
 
-var video = document.getElementById("myVideo");
-
-// Get the button
-var btn = document.getElementById("myBtn");
-
-// Pause and play the video, and change the button text
 function myFunction() {
   if (video.paused) {
+    video.volume = 0.1;
     video.play();
     btn.innerHTML = "Pause";
   } else {
@@ -237,8 +388,9 @@ function myFunction() {
 
 
 function audioPlay(soundId){
-  audio = new Audio(`/audio/sound${soundId}.mp3`);
+  audio = new Audio(`/audio/audio${soundId}.mp3`);
   audio.loop = false; // 반복재생하지 않음
   audio.volume = 0.5; // 음량 설정
   audio.play(); // sound1.mp3 재생
 }
+

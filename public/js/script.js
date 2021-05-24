@@ -39,6 +39,41 @@ var myPeer = new Peer({
   },
 });
 
+let text;
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new window.SpeechRecognition();
+
+recognition.interimResults = true;
+recognition.addEventListener('result',(e)=>{
+  text = Array.from(e.results)
+  .map(result => result[0])
+  .map(result => result.transcript)
+  .join('');
+  if(e.results[0].isFinal){
+    filterString(text.replace(/(\s*)/g, ""))
+  }
+})
+
+function filterString(text) {
+  console.log(text,typeof text)
+  let YokList = new Array('나쁜놈','바보','섹스','씹','니애미','엠창','개새끼','개색기','개색끼','개자식','개보지','개자지','개년','개걸래','개걸레','새끼야','씨발','씨팔','씨부랄','씨바랄','씹창','씹탱','씹보지','씨벌탱','씹자지','씨방세','씨방새','씨펄','시펄','십탱','씨박','썅','쌍놈','쌍넘','싸가지','쓰벌','씁얼','상넘이','상놈의','상놈이','상놈을','좆','좃','존나게','존만한','같은년','넣을년','버릴년','부랄년','뒤져라','바랄년','미친년','니기미','니미씹','니미씨',"니미 씨벌",'니미럴','니미랄','호로','후레아들','호로새끼','후레자식','후래자식','후라들년','후라들넘','빠구리','병신','죽어라');
+  for (var n = 0; n < YokList.length; n++) {
+    if (text.includes(YokList[n])) {
+      alert('부적절한 언행으로 인해 신고 조치 되셨습니다. 화상채팅을 종료합니다.');
+      window.open('', '_self', '');
+      window.close();
+      return false;
+    }
+  }
+  return true;
+}
+
+
+recognition.addEventListener('end',()=>{
+  recognition.start();
+})
+
+
 
 
 myVideo.muted = true;
@@ -61,6 +96,8 @@ navigator.mediaDevices
     // my video
     myVideoStream = stream;
     addVideoStream(myVideo, stream, 0, "me");
+    recognition.start();
+    
 
     myPeer.on("call", (call) => {
       console.log("calling");
@@ -81,8 +118,9 @@ navigator.mediaDevices
     });
 
     chatInputBox.addEventListener("keydown", (e) => {
-      console.log("key down");
-      if (e.which === 13 && chatInputBox.value != "") {
+      console.log("key down",chatInputBox.value);
+      if (e.which === 13 && chatInputBox.value != "" && filterString(chatInputBox.value)) {
+        console.log("보낸다")
         socket.emit("message", {
           msg: chatInputBox.value,
           user: currentUserId,
@@ -93,7 +131,7 @@ navigator.mediaDevices
 
     document.querySelector(".sendMsg").addEventListener("click", (e) => {
       console.log("clicked");
-      if (chatInputBox.value != "") {
+      if (chatInputBox.value != "" && filterString(chatInputBox.value)) {
         socket.emit("message", {
           msg: chatInputBox.value,
           user: currentUserId,
@@ -111,36 +149,41 @@ navigator.mediaDevices
       playStop();
     });
 
-    chatInputBox.addEventListener("focus", () => {
-      console.log("focus on");
-      document.getElementById("chat__Btn").classList.remove("has__new");
-      pendingMsg = 0;
-      document.getElementById("chat__Btn").children[1].innerHTML = "Chat";
-    });
+    // chatInputBox.addEventListener("focus", () => {
+    //   console.log("focus on");
+    //   document.getElementById("chat__Btn").classList.remove("has__new");
+    //   pendingMsg = 0;
+    //   document.getElementById("chat__Btn").children[1].innerHTML = "Chat";
+    // });
 
     socket.on("createMessage", (message) => {
       console.log("message", message);
       let li = document.createElement("li");
-      if (message.user != currentUserId) {
-        li.classList.add("otherUser");
-        li.innerHTML = `<div><b>익명이</b>${message.msg}</div>`;
-      } else {
-        li.classList.add("me");
-        li.innerHTML = `<div><b>Me</b><br>${message.msg}</div>`;
-      }
+      if(filterString(message.msg)){
+        if (message.user != currentUserId) {
+          li.classList.add("otherUser");
+          li.innerHTML = `<div><b>익명이</b>${message.msg}</div>`;
+        } else {
+          li.classList.add("me");
+          li.innerHTML = `<div><b>Me</b><br>${message.msg}</div>`;
+        }
 
-      all_messages.append(li);
-      main__chat__window.scrollTop = main__chat__window.scrollHeight;
-      if (message.user != currentUserId) {
-        pendingMsg++;
-        // playChatSound();
-        // document.getElementById("chat__Btn").classList.add("has__new");
-        // document.getElementById(
-        //   "chat__Btn"
-        // ).children[1].innerHTML = `Chat (${pendingMsg})`;
+        all_messages.append(li);
+        main__chat__window.scrollTop = main__chat__window.scrollHeight;
+        if (message.user != currentUserId) {
+          pendingMsg++;
+          // playChatSound();
+          // document.getElementById("chat__Btn").classList.add("has__new");
+          // document.getElementById(
+          //   "chat__Btn"
+          // ).children[1].innerHTML = `Chat (${pendingMsg})`;
+        }
       }
     });
   });
+
+
+
 
 myPeer.on("call", function (call) {
   getUserMedia({ video: true, audio: true }, function (stream) {

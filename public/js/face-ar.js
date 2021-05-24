@@ -4,6 +4,12 @@ const all_messages = document.getElementById("all_messages");
 const main__chat__window = document.getElementById("main__chat__window");
 let myProfile;
 let people =0;
+// require("dotenv").config();
+// const OpenTok = require("opentok");
+// const opentok = new OpenTok(
+//   process.env.OPENTOK_API_KEY,
+//   process.env.OPENTOK_API_SECRET
+// );
 const socket = io("/");
 let currentUserId;
 socket.on("connect", function () {
@@ -12,9 +18,8 @@ socket.on("connect", function () {
 let pendingMsg = 0;
 
 document.addEventListener("keydown", (e) => {
-  console.log("key down");
-  if (e.which === 13 && chatInputBox.value != "") {
-    console.log("보낻ㄴ다 endter", chatInputBox.value);
+  console.log("key down",chatInputBox.value,typeof chatInputBox.value);
+  if (e.which === 13 && chatInputBox.value != "" && filterString(chatInputBox.value)) {
     socket.emit("client message", {
       msg: chatInputBox.value,
       user: currentUserId,
@@ -26,8 +31,8 @@ document.addEventListener("keydown", (e) => {
 
 document.querySelector(".sendMsg").addEventListener("click", (e) => {
   console.log("clicked");
-  if (chatInputBox.value != "") {
-    console.log("보낸다");
+  
+  if (chatInputBox.value != "" && filterString(chatInputBox.value)) {
     socket.emit("client message", {
       msg: chatInputBox.value,
       user: currentUserId,
@@ -46,6 +51,7 @@ document.querySelector(".sendMsg").addEventListener("click", (e) => {
 
 socket.on("client createMessage", (message) => {
   console.log("message", message);
+  if(filterString(message.msg)){
   let li = document.createElement("li");
   if (message.user != currentUserId) {
     li.classList.add("otherUser");
@@ -66,6 +72,8 @@ socket.on("client createMessage", (message) => {
     //   "chat__Btn"
     // ).children[1].innerHTML = `Chat (${pendingMsg})`;
   }
+}
+
 });
 
 function handleError(error) {
@@ -86,17 +94,66 @@ const canvas = document.createElement("canvas");
 const mediaStream = canvas.captureStream(25);
 const videoTracks = mediaStream.getVideoTracks();
 
+///
+
+let text;
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new window.SpeechRecognition();
+recognition.interimResults = true;
+recognition.addEventListener('result',(e)=>{
+  text = Array.from(e.results)
+  .map(result => result[0])
+  .map(result => result.transcript)
+  .join('');
+  if(e.results[0].isFinal){
+    filterString(text.replace(/(\s*)/g, ""))
+  }
+})
+
+function filterString(text) {
+  console.log(text,typeof text)
+  let YokList = new Array('나쁜놈','바보','섹스','씹','니애미','엠창','개새끼','개색기','개색끼','개자식','개보지','개자지','개년','개걸래','개걸레',
+                          '새끼야','씨발','씨팔','씨부랄','씨바랄','씹창','씹탱','씹보지','씨벌탱','씹자지','씨방세','씨방새','씨펄',
+                          '시펄','십탱','씨박','썅','쌍놈','쌍넘','싸가지','쓰벌','씁얼','상넘이','상놈의','상놈이','상놈을','좆','좃',
+                          '존나게','존만한','같은년','넣을년','버릴년','부랄년','뒤져라','바랄년','미친년','니기미','니미씹','니미씨',"니미 씨벌",
+                          '니미럴','니미랄','호로','후레아들','호로새끼','후레자식','후래자식','후라들년','후라들넘','빠구리','병신','죽어라');
+  for (var n = 0; n < YokList.length; n++) {
+    if (text.includes(YokList[n])) {
+      alert('부적절한 언행으로 인해 신고 조치 되셨습니다. 화상채팅을 종료합니다.');
+      window.open('', '_self', '');
+      window.close();
+      return false;
+    }
+  }
+  return true;
+}
+
+recognition.addEventListener('end',()=>{
+  recognition.start();
+})
+
+let userId;
+// video_sessionId ='2_MX40NzIwNTYyNH5-MTYyMTQ1OTkwOTUxMX4zSlVxem9ySHFlUjZkK2xMdE9zVENrd2h-fg'
+// video_apiKey = process.env.OPENTOK_API_KEY;
+// video_token = 'T1==cGFydG5lcl9pZD00NzIwNTYyNCZzaWc9MTgwNzEwYWY4NDRhZjY4NjliNjhmMjlhNzNjMzAxNjUzNzg2NjFkNDpzZXNzaW9uX2lkPTJfTVg0ME56SXdOVFl5Tkg1LU1UWXlNVFExT1Rrd09UVXhNWDR6U2xWeGVtOXlTSEZsVWpaa0syeE1kRTl6VkVOcmQyaC1mZyZjcmVhdGVfdGltZT0xNjIxNDYwODE2Jm5vbmNlPTAuMzg4NTUxNzkwODY5MTU0MDMmcm9sZT1tb2RlcmF0b3ImZXhwaXJlX3RpbWU9MTYyNDA1MjgxNSZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ=='
+// deepAR_license_key = process.env.DEEPAR_KEY;
 fetch("/api/video")
   .then(async (response) => {
     const { apiKey, sessionId, token, deepARKey } = await response.json();
+    console.log(sessionId);
     video_apiKey = apiKey;
     video_sessionId = sessionId;
     video_token = token;
     deepAR_license_key = deepARKey;
+    console.log('process key',video_apiKey,video_sessionId,video_token,deepAR_license_key);
     initDeepAR();
+    recognition.start();
     initializeSession(video_apiKey, video_sessionId);
   })
   .catch((err) => console.log(err));
+
+
+
 
 function initializeSession(video_apiKey, video_sessionId) {
   // const users =document.querySelector('.user-wrapper')
@@ -105,7 +162,6 @@ function initializeSession(video_apiKey, video_sessionId) {
   // Subscribe to a newly created stream
   
   session.on("streamCreated", function (event) {
-    
     people++;
     // const member = document.createElement('li')
     // const userName =decodeURIComponent(document.cookie).split(';');
@@ -136,6 +192,7 @@ function initializeSession(video_apiKey, video_sessionId) {
     },
     handleError
   );
+
   publisher.publishVideo(false);
   publisher.publishAudio(false);
 
@@ -263,3 +320,6 @@ window.addEventListener('resize', function () {
       // Landscape 모드일 때 실행할 스크립트
     }
 });
+
+
+///

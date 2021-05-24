@@ -6,10 +6,15 @@
 {% endblock %}
 {% block content -%}
 <div class="character-wrapper">
-  <!-- <video autoplay muted loop id="myVideo">
-    <source src="/video/Confetti.mp4" type="video/mp4">
+  <div class="record__control">
+    <button id="record">녹음하기</button>
+    <button id="stopRecord" disabled>녹음중지</button>
+    <audio id="recordedAudio"></audio>
+  </div>
+  <video  loop id="myVideo">
+    <source src="/video/porest.mp4" type="video/mp4">
   </video>
-  <button id="myBtn" onclick="myFunction()">Pause</button> -->
+  <button id="myBtn" onclick="myFunction()">Pause</button>
   <div class="first_guid">
     <h1>안녕하세요. </h1>
     <p>하소연방에 잘 오셨어요!</p>
@@ -40,25 +45,12 @@
     </div>
     <div class="monster__bg shadow">
     </div>
-    <div class="speech__recognition">
-      <h1>고민 작성 소</h1>
-      <div class="text"></div>
-    </div>
   </div>
   <div class="video__wrapper">
   <div class="self_video">
-
   </div>
-</div>
-  <div class="btn_wrapper">
-    <div class="btn1  btn" data-value='1'>1</div>
-    <div class="btn2  btn" data-value='2'>2</div>
-    <div class="btn3  btn" data-value='3'>3</div>
-    <div class="btn4  btn" data-value='4'>4</div>
-    <div class="btn4  btn" data-value='5'>5</div>
-    <div class="btn4  btn" data-value='6'>6</div>
-    </div>
-</div>
+
+
 {% endblock %}
 
 {% block script%}

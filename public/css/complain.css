@@ -1,3 +1,45 @@
+/*-------- 폰트  (손글씨용)--------------*/
+@font-face {
+  /*사랑해아들체*/
+  font-family: 'Love_son';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_07@1.0/Love_son.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*--------- 폰트(명언용)----------- */
+@font-face {
+  /*경기청년바탕*/
+  font-family: 'GyeonggiBatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiBatang.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*------------ 폰트(굵은글씨용) -----------*/
+
+@font-face {
+  /*인피니티산스 ------> 메인 */
+  font-family: 'InfinitySans-BoldA1';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-BoldA1.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  /*서평원꺾깎체------>서브메인 */
+  font-family: 'SLEIGothicTTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SLEIGothicTTF.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
 /* Variables */
 /* Reset */
 *, *::after, *::before {
@@ -29,21 +71,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgba(0,0,0,0.99);
   transition: .5s all;
 
 }
 .first_guid h1 {
+  font-size: 3rem;
   font-weight: 600;
   padding: 1rem 0;
   letter-spacing: 1px;
+  font-family: 'GyeonggiBatang';
+
 }
 
 .first_guid p {
+  font-size: 1.1rem;
   padding: 0.2rem 0;
   letter-spacing: 1px;
+  font-family: 'SLEIGothicTTF';
 
 }
+
 .entrance_btn {
   margin-top: 1rem;
   padding: 0.4rem;
@@ -51,7 +99,11 @@
   border-radius: 10px;
   background-color: #fff;
   color: #333;
+  font-weight: 600;
   letter-spacing: 1px;
+  cursor: pointer;
+  font-family: 'SLEIGothicTTF';
+
 }
 
 .hide_guid  {
@@ -82,6 +134,7 @@
 }
 .text {
   color: white;
+  overflow-x: hidden;
 }
 @keyframes head_umum { 
  100% {
@@ -738,13 +791,16 @@ canvas {
 }
 
 #myBtn {
+  opacity: 0;
+  position: absolute;
+  bottom:1rem;
+  left: 1rem;
   width: 200px;
   font-size: 18px;
   padding: 10px;
-  border: none;
-  background: #000;
+  border: none;/* background: #000; */
   color: #fff;
-  cursor: pointer;
+  pointer-events: none;
 }
 
 #myBtn:hover {
@@ -752,3 +808,34 @@ canvas {
   color: black;
 }
 
+.record__control {
+  position: absolute;
+  top:1rem;
+  left: 1rem;
+  width: 30rem;
+  height: 5rem;
+  z-index: 20;
+}
+
+#record,#stopRecord {
+  width: 5rem;
+  height: 2rem;
+  padding: 0.3rem;
+  color: #333;
+  border-radius: 0.5rem;
+  font-size: .9rem;
+  font-weight: 600;
+
+  border: none;
+  background-color: #fff;
+}
+
+#recordedAudio {
+  width: 15rem;
+  height: 1.5rem;
+  position: absolute;
+  top: 2.5rem;
+  left: 0rem;
+  /* left: 1rem; */
+  
+}
