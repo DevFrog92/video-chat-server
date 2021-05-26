@@ -18,7 +18,6 @@ socket.on("connect", function () {
 let pendingMsg = 0;
 
 document.addEventListener("keydown", (e) => {
-  console.log("key down",chatInputBox.value,typeof chatInputBox.value);
   if (e.which === 13 && chatInputBox.value != "" && filterString(chatInputBox.value)) {
     socket.emit("client message", {
       msg: chatInputBox.value,
@@ -30,7 +29,6 @@ document.addEventListener("keydown", (e) => {
 });
 
 document.querySelector(".sendMsg").addEventListener("click", (e) => {
-  console.log("clicked");
   
   if (chatInputBox.value != "" && filterString(chatInputBox.value)) {
     socket.emit("client message", {
@@ -50,7 +48,6 @@ document.querySelector(".sendMsg").addEventListener("click", (e) => {
 // });
 
 socket.on("client createMessage", (message) => {
-  console.log("message", message);
   if(filterString(message.msg)){
   let li = document.createElement("li");
   if (message.user != currentUserId) {
@@ -111,7 +108,6 @@ recognition.addEventListener('result',(e)=>{
 })
 
 function filterString(text) {
-  console.log(text,typeof text)
   let YokList = new Array('나쁜놈','바보','섹스','씹','니애미','엠창','개새끼','개색기','개색끼','개자식','개보지','개자지','개년','개걸래','개걸레',
                           '새끼야','씨발','씨팔','씨부랄','씨바랄','씹창','씹탱','씹보지','씨벌탱','씹자지','씨방세','씨방새','씨펄',
                           '시펄','십탱','씨박','썅','쌍놈','쌍넘','싸가지','쓰벌','씁얼','상넘이','상놈의','상놈이','상놈을','좆','좃',
@@ -140,12 +136,10 @@ let userId;
 fetch("/api/video")
   .then(async (response) => {
     const { apiKey, sessionId, token, deepARKey } = await response.json();
-    console.log(sessionId);
     video_apiKey = apiKey;
     video_sessionId = sessionId;
     video_token = token;
     deepAR_license_key = deepARKey;
-    console.log('process key',video_apiKey,video_sessionId,video_token,deepAR_license_key);
     initDeepAR();
     recognition.start();
     initializeSession(video_apiKey, video_sessionId);
@@ -162,14 +156,14 @@ function initializeSession(video_apiKey, video_sessionId) {
   // Subscribe to a newly created stream
   
   session.on("streamCreated", function (event) {
+    console.log('streamCreated')
     people++;
-    // const member = document.createElement('li')
+    // const member = document.createElement('li')zz
     // const userName =decodeURIComponent(document.cookie).split(';');
     // console.log(userName)
     // member.innerHTML = `<span class="avatar"><img src="/image/happy.png"></span>`
     // myProfile = member;
     // users.append(member);
-    console.log('stream Created',people)
     session.subscribe(
       event.stream,
       `subscriber${people}`,
@@ -182,6 +176,7 @@ function initializeSession(video_apiKey, video_sessionId) {
     );
   });
   // Create a publisher
+  console.log('publisher')
   publisher = OT.initPublisher(
     "publisher",
     {
@@ -234,7 +229,6 @@ function switchARFilter(effect) {
 const effectsSelect = document.querySelector("#effects");
 
 effectsSelect.addEventListener("change", (event) => {
-  console.log(event);
   switchARFilter(event.target.value);
 });
 
@@ -298,16 +292,6 @@ exit.addEventListener('click', ()=> {
 
 })
 
-if (window.matchMedia('(orientation: portrait)').matches) {
-  console.log('세로야 임마!')
-
-		// Portrait 모드일 때 실행할 스크립트
-		// 폭과 높이가 같으면 Portrait 모드로 인식돼요
-	} else {
-		// Landscape 모드일 때 실행할 스크립트
-  console.log('가로 모드로 돌리기')
-
-	}
 
 const warning = document.querySelector('.warning-for-landsacpe')
 window.addEventListener('resize', function () {

@@ -1,18 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/:roomId", (_, res) => {
+router.post("/:roomId", (_, res) => {
   res.render(
     "room/room.ejs",
   );
 });
 
-router.get("/ar/:roomId", (_, res) => {
+router.post("/ar/:roomId", (_, res) => {
+  console.log('creates')
   res.render(
     "room/RolePlaying.ejs",
   );
 });
-router.get("/secret/:roomId", (_, res) => {
+router.post("/secret/:roomId", (_, res) => {
   res.render(
     "room/complain.ejs",
   );

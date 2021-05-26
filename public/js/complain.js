@@ -48,7 +48,6 @@ function sayHello(){
 }
 
 function saySpeek(){
-  console.log('start')
   mouth.style.animation = "mouth1 2.75s forwards"
 }
 
@@ -92,7 +91,6 @@ function handlerFunction(stream) {
   rec.ondataavailable = e => {
     audioChunks.push(e.data);
     if (rec.state == "inactive"){
-      console.log(audioChunks)
       let blob = new Blob(audioChunks,{type:'audio/mp3'});
       recordedAudio.src = URL.createObjectURL(blob);
       recordedAudio.controls=true;
@@ -104,7 +102,6 @@ function handlerFunction(stream) {
 const record = document.querySelector('#record');
 const stopRecord = document.querySelector('#stopRecord');
 record.addEventListener('click',(e)=>{
-  console.log('recording start');
   record.disabled = true;
   record.style.backgroundColor = 'blue';
   stopRecord.disabled = false;
@@ -112,7 +109,6 @@ record.addEventListener('click',(e)=>{
   rec.start();
 })
 stopRecord.addEventListener('click',(e)=>{
-  console.log('recording stop');
   record.disabled = false;
   record.style.backgroundColor = 'red';
   stopRecord.disabled = true;
@@ -139,7 +135,6 @@ function addVideoStream(video, stream) {
         width: video.clientWidth,
         height: video.clientHeight,
       };
-      // console.log(displaySize, video.clientWidth);
       faceapi.matchDimensions(canvas, displaySize);
       setInterval(async () => {
         const detections = await faceapi
@@ -157,12 +152,10 @@ function addVideoStream(video, stream) {
           });
           varEmotion[emotion[0]] += 1;
         }
-        // console.log(varEmotion);
         canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
         faceapi.draw.drawDetections(canvas, resizedDetections);
         faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
         faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-        // console.log(varEmotion);
       }, 100);
   })
 }    
@@ -184,7 +177,6 @@ recognition.addEventListener('result',(e)=>{
   .join('');
   // textSection.appendChild(p)
   if(e.results[0].isFinal){
-    console.log(text)
     if(text.includes('안녕')|| text.includes('반가워')  && answer === 0){
       currentSad = varEmotion['sad'];
       defaultFace()
@@ -238,10 +230,8 @@ recognition.addEventListener('result',(e)=>{
       },300)
     }
 
-    console.log(varEmotion['happy'])
 
     if(text.includes('다음에 또 올게') || text.includes('갈게') ){
-      console.log(varEmotion['happy'])
       const varEmotion_current = varEmotion['happy'];
       let now;
       defaultFace()
@@ -257,17 +247,14 @@ recognition.addEventListener('result',(e)=>{
         },200)
       },3200)
       setTimeout(()=>{
-        console.log('시작한다. 카운트')
         defaultFace()
         setTimeout(()=>{
           sayHello();
           audioPlay(5);
         },200)
-        console.log('now',now,varEmotion_current)
         setTimeout(()=>{
           now =varEmotion['happy'];
           if(now - varEmotion_current >= 2){
-            console.log('고마워',now,varEmotion)
             defaultFace()
             setTimeout(()=>{
               saySpeek();
@@ -331,7 +318,6 @@ recognition.addEventListener('result',(e)=>{
     if(text.includes('힘들')){
       let hard = [2,15];
       sayHello();
-      console.log(Math.round(Math.random()))
       audioPlay(hard[Math.round(Math.random())]);
       setTimeout(()=>{
         defaultFace()
@@ -340,7 +326,6 @@ recognition.addEventListener('result',(e)=>{
     if(text.includes('속상')){
       let bad = [1,15];
       sayHello();
-      console.log(Math.round(Math.random()))
       audioPlay(bad[Math.round(Math.random())]);
       setTimeout(()=>{
         defaultFace()
@@ -350,8 +335,6 @@ recognition.addEventListener('result',(e)=>{
 })
 
 recognition.addEventListener('end',()=>{
-  console.log('end')
-  console.log('sadState',sadState)
   if(sadState >= 20){
     sadState = 0;
     varEmotion['sad'] = 0;
@@ -365,7 +348,6 @@ recognition.addEventListener('end',()=>{
   const randomNumber = arr[Math.floor(Math.random()*arr.length)]
   // console.log(Math.random() * 10)
   // if(randomNumber != 0){
-  //   console.log('실행할거야')
   //   const audio = new Audio(`/audio/sound${randomNumber}.mp3`);
   //   audio.loop = false; // 반복재생하지 않음
   //   audio.volume = 0.5; // 음량 설정

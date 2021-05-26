@@ -63,28 +63,23 @@ app.post("/userId",(req,res) =>{
 ///
 
 app.post("/", (req, res) => {
-  console.log("abcd in");
-  console.log(req.body.roomId);
-  console.log(req.body.userId);
-  console.log(req.body.roomName);
-  res.redirect(`video_chat/room/${req.body.roomId}`);
+  res.redirect(307,`video_chat/room/${req.body.roomId}`);
 });
 
 
 app.post('/ar',(req,res)=>{
-  console.log(req.body.roomId);
-  console.log(req.body.userId);
-  console.log(req.body.roomName);
   userId = req.body.userId;
   res.cookie('userId',req.body.userId);
   sessionstorage.setItem('userNickName',req.body.userId);
+  console.log('creates')
+
   // sessionStorage.setItem('userNickName',req.body.userId);
   // sessionStorage.setItem('roomName',req.body.roomName);
-  res.redirect(`video_chat/room/ar/${req.body.roomId}`);
+  res.redirect(307,`video_chat/room/ar/${req.body.roomId}`);
 })
 
 app.post("/secret", (req, res) => {
-  res.redirect(`video_chat/room/secret/${uuidV4()}`);
+  res.redirect(307,`video_chat/room/secret/${uuidV4()}`);
 });
 
 // app.get("/abcd/ar", (req, res) => {
@@ -96,7 +91,6 @@ app.use("/video_chat/room", room);
 // web page에 연결되었을때 언제나 실행된다.
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId) => {
-    console.log(roomId, userId);
     // 룸에 입장했을때
     socket.join(roomId);
     // 나를 제외하고
